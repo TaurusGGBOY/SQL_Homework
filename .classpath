@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="D:/eclipse/workspace/SQL20190320/lib/mysql-connector-java-8.0.11.jar"/>
+	<classpathentry kind="lib" path="D:/eclipse/workspace/SQL20190320/lib/javacsv2.0.jar"/>
+	<classpathentry kind="lib" path="lib/jfreechart-1.0.19.jar"/>
+	<classpathentry kind="lib" path="lib/jcommon-1.0.23.jar"/>
+	<classpathentry kind="lib" path="lib/fr-chart-8.0.jar"/>
+	<classpathentry kind="lib" path="lib/fr-core-8.0.jar"/>
+	<classpathentry kind="lib" path="lib/fr-performance-8.0.jar"/>
+	<classpathentry kind="lib" path="lib/fr-platform-8.0.jar"/>
+	<classpathentry kind="lib" path="lib/fr-report-8.0.jar"/>
+	<classpathentry kind="lib" path="lib/fr-third-8.0.jar"/>
+	<classpathentry kind="lib" path="lib/plugin-com.fr.online.update-0.jar"/>
+	<classpathentry kind="lib" path="lib/plugin-com.fr.plugin.chart.vancharts-0.jar"/>
+	<classpathentry kind="lib" path="lib/plugin-com.fr.plugin.chart.vancharts-1.jar"/>
+	<classpathentry kind="lib" path="lib/plugin-com.fr.plugin.exportform-0.jar"/>
+	<classpathentry kind="lib" path="lib/plugin-com.fr.plugin.report.lazysheet-0.jar"/>
+	<classpathentry kind="lib" path="lib/plugin-com.fr.plugin.reportfit-0.jar"/>
+	<classpathentry kind="lib" path="lib/plugin-com.fr.plugin.updateOnLineInFSPlate-0.jar"/>
+	<classpathentry kind="lib" path="lib/plugin-com.fr.plugin.widget.excel.excelexport-0.jar"/>
+	<classpathentry kind="lib" path="lib/plugin-com.fr.solution.fsplatedata.transfer-0.jar"/>
+	<classpathentry kind="lib" path="lib/commons-codec-1.6.jar"/>
+	<classpathentry kind="lib" path="lib/fine-report-designer-10.0.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
