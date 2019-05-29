@@ -30,7 +30,7 @@ import javax.swing.table.TableColumn;
  * @创建人：奔跑的鸡丝 @创建时间：2014-11-25 下午8:58:34 @修改备注： @版本：
  */
 public class MySQLHelper {
-	private static final String PROPERTIES_NAME = "D:\\eclipse\\workspace\\SQL20190320\\src\\dal\\config.properties";
+	private static final String PROPERTIES_NAME = "D:\\eclipse\\workspace\\SQL_Homework\\src\\dal\\config.properties";
 	public static String url = "jdbc:mysql://127.0.0.1//sqlclass"; // 数据库连接
 	public static String name = "com.mysql.cj.jdbc.Driver"; // 程序驱动
 	public static String user = "root"; // 用户名
