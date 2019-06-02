@@ -54,7 +54,7 @@ public class FuzzyQuery extends JPanel {
 
 		table.setFont(new Font("ËÎÌå", Font.PLAIN, 20));
 		table.setRowHeight(25);
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		// table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		table.requestFocus();
 		scrollPane.setViewportView(table);
 
@@ -99,7 +99,7 @@ public class FuzzyQuery extends JPanel {
 						opera = "or";
 					}
 					StringBuilder sBuilder = new StringBuilder();
-					sBuilder.append("Select * from query1 where ");
+					sBuilder.append("Select * from design_numprice where ");
 					int i = 0;
 					if (strlen > 0) {
 						sBuilder.append("ËÑË÷Ïî LIKE '%");
@@ -124,7 +124,7 @@ public class FuzzyQuery extends JPanel {
 	}
 
 	void init() {
-		infoList1 = new MySQLHelper().query("SELECT * from query1");
+		infoList1 = new MySQLHelper().query("SELECT * from design_numprice");
 		for (Map<String, Object> info : infoList1) {
 			for (String column : info.keySet()) {
 				if (!column.equals("ID") && !column.equals("ËÑË÷Ïî"))

@@ -10,8 +10,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -23,18 +21,15 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.SpinnerDateModel;
-import javax.swing.SpinnerNumberModel;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
 import dal.MySQLHelper;
 
 public class KeyInput extends JPanel {
-	private JTextField textField_printNum;
+	private JTextField textField_en;
 	private String clickedInfo;
 	private JTable table;
 	private String clickName;
@@ -49,23 +44,30 @@ public class KeyInput extends JPanel {
 	private JTextField textField_number;
 	List<Map<String, Object>> infoList1 = new ArrayList<Map<String, Object>>();
 	List<Map<String, Object>> infoList2 = new ArrayList<Map<String, Object>>();
-	private JTextField textField_tip;
-	private JTextField textField_price;
+	private JTextField textField_wn;
 
 	Vector<Vector<String>> table1Columns = new Vector<>();
 	Vector<Vector<String>> table2Columns = new Vector<>();
 	Vector<String> columns1 = new Vector<>();
 	Vector<String> columns2 = new Vector<>();
-	private JTable table_1;
-	JSpinner spinner_num;
-	JSpinner spinner_in;
-	JSpinner spinner_query;
 
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
-	JScrollPane scrollPane_1;
 	int chooseRow;
 	private JLabel label_tip;
+	private JTextField textField_wp;
+	private JTextField textField_ep;
+	private JTextField textField_iwn;
+	private JTextField textField_tp;
+	private JTextField textField_ien;
+	private JTextField textField_op;
+	private JTextField textField_wsp;
+	private JTextField textField_esp;
+	private JTextField textField_gp;
+	private JTextField textField_agp;
+	private int elePrice = 0;
+	private int watPrice = 0;
+	private JTextField textField_wpp;
+	private JTextField textField_epp;
 
 	/**
 	 * Create the panel.
@@ -77,10 +79,11 @@ public class KeyInput extends JPanel {
 				table.requestFocus();
 			}
 		});
+
 		setLayout(null);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 36, 580, 210);
+		scrollPane.setBounds(10, 36, 580, 338);
 		add(scrollPane);
 
 		loadTable1();
@@ -92,189 +95,295 @@ public class KeyInput extends JPanel {
 		table.requestFocus();
 		scrollPane.setViewportView(table);
 
-		textField_printNum = new JTextField();
-		textField_printNum.setFont(new Font("宋体", Font.PLAIN, 16));
-		textField_printNum.setBounds(160, 372, 70, 27);
-		textField_printNum.setEditable(false);
-		add(textField_printNum);
-		textField_printNum.setColumns(10);
-
-		JButton btnNewButton = new JButton("\u4FDD\u5B58");
-		btnNewButton.setFont(new Font("宋体", Font.PLAIN, 16));
-		btnNewButton.setBounds(484, 256, 106, 34);
-		add(btnNewButton);
-
-		JButton button = new JButton("\u67E5\u8BE2");
-
-		button.setFont(new Font("宋体", Font.PLAIN, 16));
-		button.setBounds(466, 512, 106, 34);
-		add(button);
-
-		JLabel lblId = new JLabel("\u4E66\u540D");
-		lblId.setFont(new Font("宋体", Font.PLAIN, 16));
-		lblId.setBounds(10, 292, 39, 29);
-		add(lblId);
-
-		textField_name = new JTextField();
-		textField_name.setFont(new Font("宋体", Font.PLAIN, 16));
-		textField_name.setColumns(10);
-		textField_name.setBounds(46, 294, 185, 27);
-		textField_name.setEditable(false);
-		add(textField_name);
-
-		label_tip = new JLabel("");
-		label_tip.setForeground(Color.BLUE);
-		label_tip.setFont(new Font("宋体", Font.PLAIN, 20));
-		label_tip.setBounds(147, 256, 327, 27);
-		add(label_tip);
-
-		textField_number = new JTextField();
-		textField_number.setFont(new Font("宋体", Font.PLAIN, 16));
-		textField_number.setColumns(10);
-		textField_number.setBounds(46, 331, 185, 27);
-		textField_number.setEditable(false);
-		add(textField_number);
-
-		JLabel lblNum = new JLabel("\u4E66\u53F7");
-		lblNum.setFont(new Font("宋体", Font.PLAIN, 16));
-		lblNum.setBounds(10, 331, 39, 29);
-		add(lblNum);
-
-		JLabel lblNewLabel_bookNum = new JLabel("\u5171 \u672C");
-		lblNewLabel_bookNum.setFont(new Font("宋体", Font.PLAIN, 16));
-		lblNewLabel_bookNum.setBounds(10, 11, 54, 15);
-		add(lblNewLabel_bookNum);
-
-		JButton button_2 = new JButton("\u5173\u95ED");
-		button_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-			}
-		});
-		button_2.setFont(new Font("宋体", Font.PLAIN, 16));
-		button_2.setBounds(466, 556, 106, 34);
-		add(button_2);
-
-		JLabel label_2 = new JLabel("\u5165\u5E93\u518C\u6570");
-		label_2.setFont(new Font("宋体", Font.PLAIN, 16));
-		label_2.setBounds(258, 292, 66, 29);
-		add(label_2);
-
-		JLabel label_3 = new JLabel("\u5165\u5E93\u65E5\u671F");
-		label_3.setFont(new Font("宋体", Font.PLAIN, 16));
-		label_3.setBounds(383, 292, 64, 29);
-		add(label_3);
-
-		JLabel label_4 = new JLabel("\u5B9A\u4EF7");
-		label_4.setFont(new Font("宋体", Font.PLAIN, 16));
-		label_4.setBounds(10, 366, 32, 29);
-		add(label_4);
-
-		JLabel label_6 = new JLabel("\u5370\u6570");
-		label_6.setFont(new Font("宋体", Font.PLAIN, 16));
-		label_6.setBounds(125, 366, 39, 29);
-		add(label_6);
-
-		JLabel label_8 = new JLabel("\u5907\u6CE8");
-		label_8.setFont(new Font("宋体", Font.PLAIN, 16));
-		label_8.setBounds(268, 330, 64, 29);
-		add(label_8);
-
-		textField_tip = new JTextField();
-		textField_tip.setFont(new Font("宋体", Font.PLAIN, 16));
-		textField_tip.setColumns(10);
-		textField_tip.setBounds(334, 331, 256, 64);
-		add(textField_tip);
-
-		SpinnerNumberModel spinnerNumberModel = new SpinnerNumberModel(new Integer(1), new Integer(1), null,
-				new Integer(1));
-		spinner_num = new JSpinner();
-		spinner_num.setModel(spinnerNumberModel);
-		spinner_num.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent e) {
-				switch (e.getKeyCode()) {
-				case KeyEvent.VK_ENTER:
-					table.requestFocus(true);
-					save();
-					setSetting();
-					query();
-					table_1.setRowSelectionInterval(table_1.getRowCount() - 1, table_1.getRowCount() - 1);
-					scrollPane_1.getVerticalScrollBar().setValue(scrollPane_1.getVerticalScrollBar().getMaximum());
-					label_tip.setText("保存成功");
-					break;
-				default:
-					break;
-				}
-			}
-		});
-		spinner_num.setBounds(334, 297, 39, 22);
-		add(spinner_num);
-
-		SpinnerDateModel model_in = new SpinnerDateModel();
-		spinner_in = new JSpinner(model_in);
-		spinner_in.setValue(new Date());
-		JSpinner.DateEditor editor1 = new JSpinner.DateEditor(spinner_in, "dd-MM-yyyy");
-		spinner_in.setEditor(editor1);
-		spinner_in.setBounds(457, 297, 133, 22);
-		add(spinner_in);
-
-		textField_price = new JTextField();
-		textField_price.setFont(new Font("宋体", Font.PLAIN, 16));
-		textField_price.setColumns(10);
-		textField_price.setBounds(45, 372, 70, 27);
-		textField_price.setEditable(false);
-		add(textField_price);
-
-		JLabel label = new JLabel("\u56FE\u4E66\u5165\u5E93\u660E\u7EC6\u67E5\u8BE2");
-		label.setFont(new Font("宋体", Font.PLAIN, 16));
-		label.setBounds(10, 409, 133, 29);
-		add(label);
-
-		scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(10, 448, 446, 142);
-		add(scrollPane_1);
-
-		JLabel label_1 = new JLabel("\u5165\u5E93");
-		label_1.setFont(new Font("宋体", Font.PLAIN, 16));
-		label_1.setBounds(10, 256, 54, 29);
-		add(label_1);
-
-		SpinnerDateModel model_query = new SpinnerDateModel();
-		model_query.setCalendarField(Calendar.DATE);
-		spinner_query = new JSpinner(model_query);
-		spinner_query.setValue(new Date());
-		JSpinner.DateEditor editor2 = new JSpinner.DateEditor(spinner_query, "dd-MM-yyyy");
-		spinner_query.setEditor(editor2);
-		spinner_query.setBounds(466, 453, 124, 22);
-		add(spinner_query);
-
-		table_1 = new JTable();
-		loadTable2();
-
-		table_1.setFont(new Font("宋体", Font.PLAIN, 20));
-		table_1.setRowHeight(25);
-		table_1.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		scrollPane_1.setViewportView(table_1);
-
 		ActionMap am = table.getActionMap();
 		am.getParent().remove("selectNextRowCell");
 		table.setActionMap(am);
 
 		JPanel panel = new JPanel();
 		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel.setBounds(5, 10, 590, 242);
+		panel.setBounds(5, 10, 590, 375);
 		add(panel);
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel_1.setBounds(5, 253, 590, 157);
+		panel_1.setBounds(5, 395, 590, 198);
 		add(panel_1);
+		panel_1.setLayout(null);
 
-		JPanel panel_2 = new JPanel();
-		panel_2.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel_2.setBounds(5, 413, 590, 191);
-		add(panel_2);
+		textField_en = new JTextField();
+		textField_en.setBounds(160, 87, 70, 27);
+		panel_1.add(textField_en);
+		textField_en.setFont(new Font("宋体", Font.PLAIN, 16));
+		textField_en.setEditable(false);
+		textField_en.setColumns(10);
+
+		JLabel lblId = new JLabel("\u59D3\u540D");
+		lblId.setBounds(10, 46, 39, 29);
+		panel_1.add(lblId);
+		lblId.setFont(new Font("宋体", Font.PLAIN, 16));
+
+		textField_name = new JTextField();
+		textField_name.setBounds(46, 48, 70, 27);
+		panel_1.add(textField_name);
+		textField_name.setFont(new Font("宋体", Font.PLAIN, 16));
+		textField_name.setColumns(10);
+		textField_name.setEditable(false);
+
+		textField_number = new JTextField();
+		textField_number.setBounds(160, 46, 70, 27);
+		panel_1.add(textField_number);
+		textField_number.setFont(new Font("宋体", Font.PLAIN, 16));
+		textField_number.setColumns(10);
+		textField_number.setEditable(false);
+
+		JLabel lblNum = new JLabel("\u5BDD\u5BA4");
+		lblNum.setBounds(124, 46, 39, 29);
+		panel_1.add(lblNum);
+		lblNum.setFont(new Font("宋体", Font.PLAIN, 16));
+
+		JLabel label_4 = new JLabel("\u6C34");
+		label_4.setBounds(10, 81, 32, 29);
+		panel_1.add(label_4);
+		label_4.setFont(new Font("宋体", Font.PLAIN, 16));
+
+		JLabel label_6 = new JLabel("\u7535");
+		label_6.setBounds(125, 81, 39, 29);
+		panel_1.add(label_6);
+		label_6.setFont(new Font("宋体", Font.PLAIN, 16));
+
+		textField_wn = new JTextField();
+		textField_wn.setBounds(45, 87, 70, 27);
+		panel_1.add(textField_wn);
+		textField_wn.setFont(new Font("宋体", Font.PLAIN, 16));
+		textField_wn.setColumns(10);
+		textField_wn.setEditable(false);
+
+		JLabel label_1 = new JLabel("\u6C34\u7535");
+		label_1.setBounds(10, 10, 54, 29);
+		panel_1.add(label_1);
+		label_1.setFont(new Font("宋体", Font.PLAIN, 16));
+
+		JLabel label = new JLabel("\u6C34\u8D39");
+		label.setBounds(10, 120, 32, 29);
+		panel_1.add(label);
+		label.setFont(new Font("宋体", Font.PLAIN, 16));
+
+		JLabel label_5 = new JLabel("\u7535\u8D39");
+		label_5.setBounds(125, 120, 39, 29);
+		panel_1.add(label_5);
+		label_5.setFont(new Font("宋体", Font.PLAIN, 16));
+
+		textField_wp = new JTextField();
+		textField_wp.setBounds(45, 120, 70, 27);
+		panel_1.add(textField_wp);
+		textField_wp.setFont(new Font("宋体", Font.PLAIN, 16));
+		textField_wp.setEditable(false);
+		textField_wp.setColumns(10);
+
+		textField_ep = new JTextField();
+		textField_ep.setBounds(160, 120, 70, 27);
+		panel_1.add(textField_ep);
+		textField_ep.setFont(new Font("宋体", Font.PLAIN, 16));
+		textField_ep.setEditable(false);
+		textField_ep.setColumns(10);
+
+		JLabel label_2 = new JLabel("\u6C34\u8868\u793A\u6570");
+		label_2.setBounds(248, 46, 66, 29);
+		panel_1.add(label_2);
+		label_2.setFont(new Font("宋体", Font.PLAIN, 16));
+
+		JLabel label_3 = new JLabel("\u7535\u8868\u793A\u6570");
+		label_3.setBounds(400, 46, 64, 29);
+		panel_1.add(label_3);
+		label_3.setFont(new Font("宋体", Font.PLAIN, 16));
+
+		JLabel label_8 = new JLabel("\u603B\u8BA1");
+		label_8.setBounds(10, 159, 39, 29);
+		panel_1.add(label_8);
+		label_8.setFont(new Font("宋体", Font.PLAIN, 16));
+
+		JButton btnNewButton = new JButton("\u4FDD\u5B58");
+
+		btnNewButton.setBounds(474, 10, 106, 34);
+		panel_1.add(btnNewButton);
+		btnNewButton.setFont(new Font("宋体", Font.PLAIN, 16));
+
+		label_tip = new JLabel("");
+		label_tip.setBounds(137, 10, 327, 27);
+		panel_1.add(label_tip);
+		label_tip.setForeground(Color.BLUE);
+		label_tip.setFont(new Font("宋体", Font.PLAIN, 20));
+
+		textField_iwn = new JTextField();
+		textField_iwn.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				switch (e.getKeyCode()) {
+				case KeyEvent.VK_ENTER:
+					textField_wsp.setText(String.valueOf(
+							(Integer.parseInt(textField_iwn.getText()) - Integer.parseInt(textField_wn.getText()))
+									* Integer.parseInt(textField_wpp.getText())));
+					textField_ien.requestFocus();
+					break;
+				default:
+					break;
+				}
+			}
+		});
+
+		textField_iwn.setFont(new Font("宋体", Font.PLAIN, 16));
+		textField_iwn.setBounds(324, 51, 70, 27);
+		panel_1.add(textField_iwn);
+		textField_iwn.setColumns(10);
+
+		textField_tp = new JTextField();
+		textField_tp.setFont(new Font("宋体", Font.PLAIN, 16));
+		textField_tp.setEditable(false);
+		textField_tp.setColumns(10);
+		textField_tp.setBounds(46, 160, 70, 27);
+		panel_1.add(textField_tp);
+
+		textField_ien = new JTextField();
+		textField_ien.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				switch (e.getKeyCode()) {
+				case KeyEvent.VK_ENTER:
+					textField_esp.setText(String.valueOf(
+							(Integer.parseInt(textField_ien.getText()) - Integer.parseInt(textField_en.getText()))
+									* Integer.parseInt(textField_epp.getText())));
+					textField_gp.requestFocus();
+					break;
+				default:
+					break;
+				}
+			}
+		});
+		textField_ien.setFont(new Font("宋体", Font.PLAIN, 16));
+		textField_ien.setColumns(10);
+		textField_ien.setBounds(472, 51, 70, 27);
+		panel_1.add(textField_ien);
+
+		JLabel label_7 = new JLabel("\u6B20\u8D39");
+		label_7.setFont(new Font("宋体", Font.PLAIN, 16));
+		label_7.setBounds(124, 159, 32, 29);
+		panel_1.add(label_7);
+
+		textField_op = new JTextField();
+		textField_op.setFont(new Font("宋体", Font.PLAIN, 16));
+		textField_op.setEditable(false);
+		textField_op.setColumns(10);
+		textField_op.setBounds(160, 160, 70, 27);
+		panel_1.add(textField_op);
+
+		JLabel label_9 = new JLabel("\u6C34\u5E94\u7F34");
+		label_9.setFont(new Font("宋体", Font.PLAIN, 16));
+		label_9.setBounds(248, 117, 66, 29);
+		panel_1.add(label_9);
+
+		textField_wsp = new JTextField();
+		textField_wsp.setEditable(false);
+		textField_wsp.setFont(new Font("宋体", Font.PLAIN, 16));
+		textField_wsp.setColumns(10);
+		textField_wsp.setBounds(324, 122, 70, 27);
+		panel_1.add(textField_wsp);
+
+		JLabel label_10 = new JLabel("\u7535\u5E94\u7F34");
+		label_10.setFont(new Font("宋体", Font.PLAIN, 16));
+		label_10.setBounds(400, 117, 64, 29);
+		panel_1.add(label_10);
+
+		textField_esp = new JTextField();
+		textField_esp.setEditable(false);
+		textField_esp.setFont(new Font("宋体", Font.PLAIN, 16));
+		textField_esp.setColumns(10);
+		textField_esp.setBounds(472, 122, 70, 27);
+		panel_1.add(textField_esp);
+
+		JLabel label_11 = new JLabel("\u7F34\u8D39");
+		label_11.setFont(new Font("宋体", Font.PLAIN, 16));
+		label_11.setBounds(248, 155, 66, 29);
+		panel_1.add(label_11);
+
+		textField_gp = new JTextField();
+		textField_gp.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				switch (e.getKeyCode()) {
+				case KeyEvent.VK_ENTER:
+					textField_agp.setText(String.valueOf(Integer.parseInt(textField_wsp.getText())
+							+ Integer.parseInt(textField_esp.getText()) + Integer.parseInt(textField_op.getText())
+							- Integer.parseInt(textField_gp.getText())));
+					btnNewButton.requestFocus();
+					break;
+				default:
+					break;
+				}
+			}
+		});
+		textField_gp.setFont(new Font("宋体", Font.PLAIN, 16));
+		textField_gp.setColumns(10);
+		textField_gp.setBounds(324, 160, 70, 27);
+		panel_1.add(textField_gp);
+
+		JLabel label_12 = new JLabel("\u7F34\u8D39\u540E");
+		label_12.setFont(new Font("宋体", Font.PLAIN, 16));
+		label_12.setBounds(400, 156, 64, 29);
+		panel_1.add(label_12);
+
+		textField_agp = new JTextField();
+		textField_agp.setFont(new Font("宋体", Font.PLAIN, 16));
+		textField_agp.setEditable(false);
+		textField_agp.setColumns(10);
+		textField_agp.setBounds(472, 161, 70, 27);
+		panel_1.add(textField_agp);
+
+		JLabel label_13 = new JLabel("\u6C34\u5355\u4EF7");
+		label_13.setFont(new Font("宋体", Font.PLAIN, 16));
+		label_13.setBounds(248, 81, 66, 29);
+		panel_1.add(label_13);
+
+		textField_wpp = new JTextField();
+		textField_wpp.setFont(new Font("宋体", Font.PLAIN, 16));
+		textField_wpp.setEditable(false);
+		textField_wpp.setColumns(10);
+		textField_wpp.setBounds(324, 86, 70, 27);
+		panel_1.add(textField_wpp);
+
+		JLabel 电单价 = new JLabel("\u7535\u5355\u4EF7");
+		电单价.setFont(new Font("宋体", Font.PLAIN, 16));
+		电单价.setBounds(400, 81, 64, 29);
+		panel_1.add(电单价);
+
+		textField_epp = new JTextField();
+		textField_epp.setFont(new Font("宋体", Font.PLAIN, 16));
+		textField_epp.setEditable(false);
+		textField_epp.setColumns(10);
+		textField_epp.setBounds(472, 86, 70, 27);
+		panel_1.add(textField_epp);
+
+		init();
+
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				save();
+				setSetting();
+				loadTable1();
+				table.requestFocus();
+				label_tip.setText("保存成功");
+			}
+		});
+
+		btnNewButton.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				save();
+				setSetting();
+				loadTable1();
+				table.requestFocus();
+				label_tip.setText("保存成功");
+			}
+		});
 
 		table.addKeyListener(new KeyAdapter() {
 			@Override
@@ -282,12 +391,16 @@ public class KeyInput extends JPanel {
 				chooseRow = table.getSelectedRow();
 				switch (arg0.getKeyCode()) {
 				case KeyEvent.VK_ENTER:
-					textField_printNum.setText((String) table.getValueAt(chooseRow, 4));
-					textField_name.setText((String) table.getValueAt(chooseRow, 0));
-					textField_number.setText((String) table.getValueAt(chooseRow, 7));
-					textField_price.setText((String) table.getValueAt(chooseRow, 9));
-					spinner_num.requestFocus();
+					textField_en.setText((String) table.getValueAt(chooseRow, 0));
+					textField_tp.setText((String) table.getValueAt(chooseRow, 1));
+					textField_ep.setText((String) table.getValueAt(chooseRow, 2));
+					textField_wp.setText((String) table.getValueAt(chooseRow, 3));
+					textField_op.setText((String) table.getValueAt(chooseRow, 4));
+					textField_number.setText((String) table.getValueAt(chooseRow, 5));
+					textField_wn.setText((String) table.getValueAt(chooseRow, 6));
+					textField_name.setText((String) table.getValueAt(chooseRow, 7));
 					label_tip.setText("");
+					textField_iwn.requestFocus();
 					break;
 				default:
 					break;
@@ -295,36 +408,19 @@ public class KeyInput extends JPanel {
 			}
 
 		});
-
-		button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				query();
-
-				label_tip.setText("查询成功");
-
-			}
-		});
-
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				save();
-				setSetting();
-				query();
-				label_tip.setText("保存成功");
-			}
-		});
 	}
 
 	void loadTable1() {
 		columns1 = new Vector<String>();
 		table1Columns = new Vector<>();
-		infoList1 = new MySQLHelper().query("SELECT * from keyinput1");
+		infoList1 = new MySQLHelper().query("SELECT * from design_numprice");
 		for (Map<String, Object> info : infoList1) {
 			for (String column : info.keySet()) {
 				columns1.add(column);
 			}
 			break;
 		}
+		columns1.remove("搜索项");
 
 		for (int i = 0; i < columns1.size() / 2; i++) {
 			String temp = columns1.get(i);
@@ -343,77 +439,71 @@ public class KeyInput extends JPanel {
 		model1 = new DefaultTableModel(table1Columns, columns1);
 	}
 
-	void loadTable2() {
-		columns2 = new Vector<String>();
-		table2Columns = new Vector<>();
-		infoList2 = new MySQLHelper().query("SELECT * from in1 where InDate = '"
-				+ new SimpleDateFormat("yyyy-MM-dd").format(spinner_query.getValue()) + "'");
-		for (Map<String, Object> info : infoList2) {
-			for (String column : info.keySet()) {
-				columns2.add(column);
-			}
-			break;
-		}
-
-		for (int i = 0; i < columns2.size() / 2; i++) {
-			String temp = columns2.get(i);
-			columns2.set(i, columns2.get(columns2.size() - i - 1));
-			columns2.set(columns2.size() - i - 1, temp);
-
-		}
-		Vector<String> temp = new Vector<>();
-		for (Map<String, Object> info : infoList2) {
-			temp = new Vector<>();
-			// System.out.print(info.get("Name"));
-			// System.out.print(info.get(" "));
-			// System.out.println(info.get("InNum"));
-			for (String column : columns2) {
-				temp.add(String.valueOf(info.get(column)));
-			}
-			table2Columns.add(temp);
-		}
-		DefaultTableModel model_temp = new DefaultTableModel(table2Columns, columns2);
-		table_1.setModel(model_temp);
-	}
-
 	void setSetting() {
-		spinner_num.setValue(1);
 		label_tip.setText("");
+		textField_en.setText("");
+		textField_tp.setText("");
+		textField_ep.setText("");
+		textField_wp.setText("");
+		textField_op.setText("");
+		textField_number.setText("");
+		textField_wn.setText("");
+		textField_name.setText("");
+		textField_wsp.setText("");
+		textField_esp.setText("");
+		textField_agp.setText("");
+		textField_iwn.setText("");
+		textField_ien.setText("");
+		textField_gp.setText("");
 	}
 
 	void save() {
 		Map<String, String> map = new HashMap<>();
-		map.put("Name", textField_name.getText());
-		map.put("InDate", new SimpleDateFormat("yyyy-MM-dd").format(spinner_in.getValue()));
-		map.put("InNum", String.valueOf(spinner_num.getValue()));
-		map.put("Tip", textField_tip.getText());
-		map.put("Num", textField_number.getText());
+		map.put("水表示数", textField_iwn.getText());
+		map.put("电表示数", textField_ien.getText());
+		map.put("电费",
+				String.valueOf(Integer.parseInt(textField_ep.getText()) + Integer.parseInt(textField_esp.getText())));
+		map.put("水费",
+				String.valueOf(Integer.parseInt(textField_wp.getText()) + Integer.parseInt(textField_wsp.getText())));
+		map.put("总计",
+				String.valueOf(Integer.parseInt(textField_ep.getText()) + Integer.parseInt(textField_esp.getText())
+						+ Integer.parseInt(textField_ep.getText()) + Integer.parseInt(textField_esp.getText())));
+		map.put("欠费", textField_agp.getText());
+		for (String string : map.keySet()) {
+			if (Integer.parseInt(map.get(string)) < 0) {
+				label_tip.setText("输入的参数错误");
+				return;
+			}
+		}
 
 		StringBuilder sql = new StringBuilder();
 
-		sql.append("Insert into in1 (");
-		for (String column : columns2) {
-			if (column.equals("ID"))
+		sql.append("update design_numprice set ");
+		for (String column : map.keySet()) {
+			if (column.equals("姓名"))
 				continue;
 			sql.append(column);
-			sql.append(",");
-		}
-		sql.deleteCharAt(sql.length() - 1);
-		sql.append(") values (");
-		for (String column : columns2) {
-			if (column.equals("ID"))
-				continue;
-			sql.append("'");
+			sql.append("='");
 			sql.append(map.get(column));
 			sql.append("',");
 		}
 		sql.deleteCharAt(sql.length() - 1);
-		sql.append(")");
+		sql.append(" where 姓名='");
+		sql.append(textField_name.getText());
+		sql.append("'");
+		System.out.println(sql.toString());
 		new MySQLHelper().executeNonquery(sql.toString());
 
 	}
 
-	void query() {
-		loadTable2();
+	void init() {
+		infoList2 = new MySQLHelper().query("SELECT * from design_price");
+		for (Map<String, Object> info : infoList2) {
+			watPrice = Integer.parseInt(info.get("水").toString());
+			elePrice = Integer.parseInt(info.get("电").toString());
+			break;
+		}
+		textField_epp.setText(String.valueOf(elePrice));
+		textField_wpp.setText(String.valueOf(watPrice));
 	}
 }

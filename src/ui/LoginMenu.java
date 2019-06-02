@@ -78,7 +78,7 @@ public class LoginMenu extends JFrame {
 		label_5.setBounds(225, 274, 65, 74);
 		panel.add(label_5);
 
-		JLabel label_6 = new JLabel("\u4EA4\u5927\u6743\u9650\u7BA1\u7406\u7CFB\u7EDF");
+		JLabel label_6 = new JLabel("\u4EA4\u5927\u6C34\u7535\u7BA1\u7406\u7CFB\u7EDF");
 		label_6.setForeground(new Color(0, 102, 204));
 		label_6.setFont(new Font("宋体", Font.BOLD, 24));
 		label_6.setBounds(160, 372, 200, 29);
@@ -205,7 +205,7 @@ public class LoginMenu extends JFrame {
 
 				// Query
 				List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-				list = new MySQLHelper().query("select * from users2 where username = '" + username + "'");
+				list = new MySQLHelper().query("select * from design_user where username = '" + username + "'");
 				if (list.isEmpty())
 					lblAsdsad.setText("没有这个用户名");
 				else {

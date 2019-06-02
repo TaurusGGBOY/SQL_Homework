@@ -144,7 +144,7 @@ public class ChooseMenu extends JFrame {
 		lblNewLabel_1.setBounds(151, 264, 250, 250);
 		panel_1.add(lblNewLabel_1);
 
-		JLabel label_3 = new JLabel("\u897F\u5357\u4EA4\u901A\u5927\u5B66\u6743\u9650\u7BA1\u7406\u7CFB\u7EDF");
+		JLabel label_3 = new JLabel("\u897F\u5357\u4EA4\u901A\u5927\u5B66\u6C34\u7535\u7BA1\u7406\u7CFB\u7EDF");
 		label_3.setFont(new Font("ËÎÌו", Font.BOLD, 30));
 		label_3.setBounds(65, 141, 448, 35);
 		panel_1.add(label_3);

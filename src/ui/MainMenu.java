@@ -76,7 +76,7 @@ public class MainMenu extends JFrame {
 		columns1.add("type");
 		columns1.add("right");
 
-		users = new MySQLHelper().query("SELECT * from users2");
+		users = new MySQLHelper().query("SELECT * from design_user");
 		for (Map<String, Object> map : users) {
 			Vector<String> nameVector = new Vector<>();
 			nameVector.add(String.valueOf(map.get("username")));
@@ -84,7 +84,7 @@ public class MainMenu extends JFrame {
 			nameMap.put(String.valueOf(map.get("username")), Integer.parseInt(String.valueOf(map.get("id"))));
 		}
 
-		List<Map<String, Object>> rightList = new MySQLHelper().query("SELECT * from rights2");
+		List<Map<String, Object>> rightList = new MySQLHelper().query("SELECT * from design_right");
 		for (Map<String, Object> map : rightList) {
 			rightMap.put(String.valueOf(map.get("rightName")), Integer.parseInt(String.valueOf(map.get("id"))));
 		}
@@ -301,7 +301,7 @@ public class MainMenu extends JFrame {
 							textField_1.setText(GlobalVar.password);
 
 							rightsno = new MySQLHelper().query(
-									"select * from rights2 where id not in (SELECT r.id from usersrights2 ur, users2 u,rights2 r where ur.userID=u.id and r.id=ur.rightID and u.username = '"
+									"select * from design_right where id not in (SELECT r.id from design_userright ur, design_user u,design_right r where ur.userID=u.id and r.id=ur.rightID and u.username = '"
 											+ GlobalVar.name + "')");
 
 							typeright1.clear();
@@ -319,7 +319,7 @@ public class MainMenu extends JFrame {
 							}
 
 							rightsyes = new MySQLHelper().query(
-									"SELECT * from usersrights2 ur, users2 u,rights2 r where ur.userID=u.id and r.id=ur.rightID and u.username = '"
+									"SELECT * from design_userright ur, design_user u,design_right r where ur.userID=u.id and r.id=ur.rightID and u.username = '"
 											+ GlobalVar.name + "'");
 
 							typeright2.clear();
@@ -357,12 +357,13 @@ public class MainMenu extends JFrame {
 					}
 					if (JOptionPane.showConfirmDialog(null, "删除该用户？" + label_10.getText(), "提示",
 							JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-						new MySQLHelper()
-								.executeNonquery("delete from users2 where username = '" + label_10.getText() + "'");
 						new MySQLHelper().executeNonquery(
-								"delete ur from usersrights2 ur,users2 u where ur.userID=u.id and u.username = '"
+								"delete from design_user where username = '" + label_10.getText() + "'");
+						new MySQLHelper().executeNonquery(
+								"delete ur from design_userright ur,design_user u where ur.userID=u.id and u.username = '"
 										+ label_10.getText() + "'");
-
+						new MySQLHelper()
+								.executeNonquery("delete from design_numprice where 姓名 = '" + label_10.getText() + "'");
 						int i = table.getSelectedRow();
 						if (i < 0)
 							return;
@@ -419,7 +420,7 @@ public class MainMenu extends JFrame {
 							textField_1.setText(GlobalVar.password);
 
 							rightsno = new MySQLHelper().query(
-									"select * from rights2 where id not in (SELECT r.id from usersrights2 ur, users2 u,rights2 r where ur.userID=u.id and r.id=ur.rightID and u.username = '"
+									"select * from design_right where id not in (SELECT r.id from design_userright ur, design_user u,design_right r where ur.userID=u.id and r.id=ur.rightID and u.username = '"
 											+ GlobalVar.name + "')");
 
 							typeright1.clear();
@@ -437,7 +438,7 @@ public class MainMenu extends JFrame {
 							}
 
 							rightsyes = new MySQLHelper().query(
-									"SELECT * from usersrights2 ur, users2 u,rights2 r where ur.userID=u.id and r.id=ur.rightID and u.username = '"
+									"SELECT * from design_userright ur, design_user u,design_right r where ur.userID=u.id and r.id=ur.rightID and u.username = '"
 											+ GlobalVar.name + "'");
 
 							typeright2.clear();
@@ -524,18 +525,20 @@ public class MainMenu extends JFrame {
 					return;
 				}
 				if (!nameMap.containsKey(label_10.getText())) {
-					new MySQLHelper().executeNonquery("Insert into users2 (username,password) values ('"
+					new MySQLHelper().executeNonquery("Insert into design_user (username,password) values ('"
 							+ label_10.getText().trim() + "','" + textField_1.getText() + "')");
+					new MySQLHelper().executeNonquery(
+							"Insert into design_numprice (姓名) values ('" + label_10.getText().trim() + "')");
 					label_11.setText("注册成功，请重新登录");
 					return;
 				}
-				new MySQLHelper().executeNonquery("update users2 set password = '" + textField_1.getText()
+				new MySQLHelper().executeNonquery("update design_user set password = '" + textField_1.getText()
 						+ "' where username = '" + GlobalVar.name + "'");
 				new MySQLHelper().executeNonquery(
-						"delete ur from usersrights2 ur, users2 u where ur.userID=u.id and u.username = '"
+						"delete ur from design_userright ur, design_user u where ur.userID=u.id and u.username = '"
 								+ GlobalVar.name + "'");
 				for (Vector<String> v : typeright2) {
-					new MySQLHelper().executeNonquery("insert into usersrights2 (userID,rightID) values ("
+					new MySQLHelper().executeNonquery("insert into design_userright (userID,rightID) values ("
 							+ String.valueOf(nameMap.get(GlobalVar.name)) + "," + String.valueOf(rightMap.get(v.get(1)))
 							+ ")");
 				}

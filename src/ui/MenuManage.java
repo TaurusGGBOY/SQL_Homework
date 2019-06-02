@@ -71,7 +71,7 @@ public class MenuManage extends JFrame {
 		contentPane.setLayout(null);
 		List<Map<String, Object>> rightsno = new ArrayList<Map<String, Object>>();
 		rightsno = new MySQLHelper().query(
-				"SELECT * from usersrights2 ur, users2 u,rights2 r where ur.userID=u.id and r.id=ur.rightID and u.username = '"
+				"SELECT * from design_userright ur, design_user u,design_right r where ur.userID=u.id and r.id=ur.rightID and u.username = '"
 						+ GlobalVar.name + "'");
 
 		Map<String, Vector<String>> userRight = new HashMap<String, Vector<String>>();
@@ -201,6 +201,9 @@ public class MenuManage extends JFrame {
 		ReportOneSee rep3 = new ReportOneSee();
 		panel_1.add(rep3, "rep3");
 
+		ResetPassword resetPassword = new ResetPassword();
+		panel_1.add(resetPassword, "res1");
+
 		layout.show(panel_1, "p0");
 		tree.addTreeSelectionListener(new TreeSelectionListener() {
 
@@ -235,10 +238,10 @@ public class MenuManage extends JFrame {
 					case "引用管理3":
 						layout.show(panel_1, "r3");
 						break;
-					case "入库管理1":
+					case "输入水电":
 						layout.show(panel_1, "k1");
 						break;
-					case "模糊查询":
+					case "查询水电":
 						layout.show(panel_1, "q1");
 						break;
 					case "万能查询":
@@ -247,7 +250,7 @@ public class MenuManage extends JFrame {
 					case "组合查询":
 						layout.show(panel_1, "q3");
 						break;
-					case "入库统计图":
+					case "信息报表":
 						layout.show(panel_1, "rep1");
 						break;
 					case "入库统计表":
@@ -255,6 +258,9 @@ public class MenuManage extends JFrame {
 						break;
 					case "库存一览":
 						layout.show(panel_1, "rep3");
+						break;
+					case "密码重置":
+						layout.show(panel_1, "res1");
 						break;
 					default:
 						break;
