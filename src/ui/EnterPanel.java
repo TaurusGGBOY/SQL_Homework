@@ -28,7 +28,7 @@ public class EnterPanel extends JPanel {
 		add(lblNewLabel);
 
 		JLabel lblNewLabel_1 = new JLabel(
-				"\u897F\u5357\u4EA4\u901A\u5927\u5B66\u6743\u9650\u7BA1\u7406\u7CFB\u7EDF\u5B50\u7CFB\u7EDF");
+				"\u897F\u5357\u4EA4\u901A\u5927\u5B66\u6C34\u7535\u7BA1\u7406\u7CFB\u7EDF\u5B50\u7CFB\u7EDF");
 		lblNewLabel_1.setFont(new Font("ËÎÌו", Font.PLAIN, 30));
 		lblNewLabel_1.setBounds(90, 143, 455, 83);
 		add(lblNewLabel_1);

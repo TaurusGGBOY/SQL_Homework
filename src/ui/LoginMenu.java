@@ -6,7 +6,12 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 
@@ -56,6 +61,17 @@ public class LoginMenu extends JFrame {
 	 * Create the frame.
 	 */
 	public LoginMenu() {
+
+		List<Map<String, Object>> argments = new ArrayList<Map<String, Object>>();
+		argments = new MySQLHelper().query("select * from argments");
+		for (Map<String, Object> map : argments) {
+			num = Integer.parseInt(map.get("num").toString());
+			days = Integer.parseInt(map.get("days").toString());
+			lock_days = Integer.parseInt(map.get("lock_days").toString());
+			break;
+
+		}
+
 		setTitle("\u897F\u5357\u4EA4\u901A\u5927\u5B66\u5BBF\u820D\u6C34\u7535\u7BA1\u7406\u7CFB\u7EDF");
 		setUndecorated(true);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(LoginMenu.class.getResource("/ui/icon.png")));
@@ -78,7 +94,7 @@ public class LoginMenu extends JFrame {
 		label_5.setBounds(225, 274, 65, 74);
 		panel.add(label_5);
 
-		JLabel label_6 = new JLabel("\u4EA4\u5927\u6C34\u7535\u7BA1\u7406\u7CFB\u7EDF");
+		JLabel label_6 = new JLabel("\u4EA4\u5927\u767B\u5F55\u7BA1\u7406\u7CFB\u7EDF");
 		label_6.setForeground(new Color(0, 102, 204));
 		label_6.setFont(new Font("宋体", Font.BOLD, 24));
 		label_6.setBounds(160, 372, 200, 29);
@@ -99,7 +115,7 @@ public class LoginMenu extends JFrame {
 		lblNewLabel_1.setFont(new Font("宋体", Font.BOLD, 18));
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1.setForeground(Color.WHITE);
-		lblNewLabel_1.setBounds(128, 385, 42, 24);
+		lblNewLabel_1.setBounds(130, 360, 42, 24);
 		panel_1.add(lblNewLabel_1);
 
 		JButton btnNewButton = new JButton("");
@@ -107,7 +123,7 @@ public class LoginMenu extends JFrame {
 		btnNewButton.setIcon(new ImageIcon(LoginMenu.class.getResource("/ui/\u6309\u94AE.png")));
 		btnNewButton.setForeground(Color.WHITE);
 		btnNewButton.setBackground(Color.WHITE);
-		btnNewButton.setBounds(58, 376, 191, 41);
+		btnNewButton.setBounds(60, 351, 191, 41);
 		btnNewButton.setBorder(null);
 		btnNewButton.setContentAreaFilled(false);
 		panel_1.add(btnNewButton);
@@ -116,7 +132,7 @@ public class LoginMenu extends JFrame {
 		label_4.setHorizontalAlignment(SwingConstants.CENTER);
 		label_4.setForeground(Color.WHITE);
 		label_4.setFont(new Font("宋体", Font.BOLD, 18));
-		label_4.setBounds(128, 484, 42, 24);
+		label_4.setBounds(130, 432, 42, 24);
 		panel_1.add(label_4);
 
 		JButton button = new JButton("");
@@ -130,7 +146,7 @@ public class LoginMenu extends JFrame {
 		button.setContentAreaFilled(false);
 		button.setBorder(null);
 		button.setBackground(Color.WHITE);
-		button.setBounds(58, 475, 191, 41);
+		button.setBounds(60, 423, 191, 41);
 		panel_1.add(button);
 
 		textField = new JTextField(new MySQLHelper().getProperty("auto_id"));
@@ -173,28 +189,6 @@ public class LoginMenu extends JFrame {
 		lblAsdsad.setBounds(10, 495, 280, 68);
 		panel_1.add(lblAsdsad);
 
-		JLabel label_7 = new JLabel("\u6CE8\u518C");
-		label_7.setHorizontalAlignment(SwingConstants.CENTER);
-		label_7.setForeground(Color.WHITE);
-		label_7.setFont(new Font("宋体", Font.BOLD, 18));
-		label_7.setBounds(128, 436, 42, 24);
-		panel_1.add(label_7);
-
-		JButton button_1 = new JButton("");
-		button_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new Register().setVisible(true);
-				dispose();
-			}
-		});
-		button_1.setIcon(new ImageIcon(LoginMenu.class.getResource("/ui/\u6309\u94AE.png")));
-		button_1.setForeground(Color.WHITE);
-		button_1.setContentAreaFilled(false);
-		button_1.setBorder(null);
-		button_1.setBackground(Color.WHITE);
-		button_1.setBounds(58, 427, 191, 41);
-		panel_1.add(button_1);
-
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				// Save password and user's name
@@ -208,21 +202,69 @@ public class LoginMenu extends JFrame {
 				list = new MySQLHelper().query("select * from design_user where username = '" + username + "'");
 				if (list.isEmpty())
 					lblAsdsad.setText("没有这个用户名");
-				else {
+				else
 					for (Map<String, Object> map : list) {
-						if (password.equals(String.valueOf(map.get("password")))) {
-							GlobalVar.name = username;
-							new ChooseMenu().setVisible(true);
-							dispose();
-						} else
-							lblAsdsad.setText("密码错误");
-						break;
+						String user = map.get("username").toString();
+						String pass = map.get("password").toString();
+						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+						Date now = new Date();
+						now.getTime();
+						String unlockTime = sdf.format(map.get("unlock_time"));
+
+						boolean isLock = true;
+						try {
+							if (now.before(sdf.parse(unlockTime))) {
+								isLock = true;
+							} else
+								isLock = false;
+						} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						if (isLock) {
+							lblAsdsad.setText("锁定到" + unlockTime);
+						} else {
+							if (user.equals(username)) {
+								times = Integer.parseInt(map.get("fault_time").toString());
+
+								if (pass.equals(password)) {
+									GlobalVar.times = times;
+									GlobalVar.name = username;
+									new MySQLHelper()
+											.executeNonquery("update design_user set fault_time = 0 where username = '"
+													+ username + "'");
+									dispose();
+									new ChooseMenu().setVisible(true);
+								} else {
+									times++;
+									if (times == num) {
+										Date tomorrow = new Date();// 取时间
+										Calendar calendar = new GregorianCalendar();
+										calendar.setTime(tomorrow);
+										calendar.add(Calendar.DATE, lock_days);// 把日期往后增加一天.整数往后推,负数往前移动
+										// System.out.println(lock_days);
+										tomorrow = calendar.getTime(); // 这个时间就是日期往后推一天的结果
+										SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+										String dateString = formatter.format(tomorrow);
+										// System.out.println("update design_user set fault_time = 0,unlock_time='" +
+										// dateString
+										// + "' where username = '" + username + "'");
+										new MySQLHelper()
+												.executeNonquery("update design_user set fault_time = 0,unlock_time='"
+														+ dateString + "' where username = '" + username + "'");
+										lblAsdsad.setText("错误3次，被锁定至" + dateString);
+									} else {
+										new MySQLHelper().executeNonquery("update design_user set fault_time = "
+												+ String.valueOf(times) + " where username = '" + username + "'");
+										lblAsdsad.setText("密码错误，输入错误次数：" + String.valueOf(times));
+									}
+								}
+
+							}
+
+						}
 					}
-
-				}
-
 			}
 		});
 	}
-
 }
