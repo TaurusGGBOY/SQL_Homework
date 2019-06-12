@@ -17,15 +17,12 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.Vector;
 
 import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
 import javax.print.attribute.standard.OrientationRequested;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -49,7 +46,6 @@ public class ReportOneSee extends JPanel {
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	int chooseRow;
 	private JTable table;
-	JComboBox<String> comboBox = new JComboBox<>();
 
 	/**
 	 * Create the panel.
@@ -63,34 +59,13 @@ public class ReportOneSee extends JPanel {
 
 		table = new JTable();
 		scrollPane.setViewportView(table);
-		comboBox.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				switch (String.valueOf(comboBox.getSelectedItem())) {
-				case "":
-					loadTable("SELECT * from bookonesee1");
-					break;
-
-				default:
-					loadTable("SELECT * from bookonesee1 where 图书分类='" + String.valueOf(comboBox.getSelectedItem())
-							+ "'");
-					break;
-				}
-			}
-		});
-
-		comboBox.setBounds(84, 10, 143, 21);
-		add(comboBox);
-
-		JLabel lblNewLabel = new JLabel("\u56FE\u4E66\u7C7B\u522B");
-		lblNewLabel.setBounds(20, 13, 54, 15);
-		add(lblNewLabel);
 
 		JButton button_1 = new JButton("\u6253\u5370");
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				MessageFormat footer = new MessageFormat("- {0} -"); // 页脚加页码
 				MessageFormat header = new MessageFormat(
-						"2017年入库图书                    \r\n报表生成时间:" + String.valueOf(sdf.format(new Date()))); // 页眉加时间
+						"2019年水电报表                    \r\n报表生成时间:" + String.valueOf(sdf.format(new Date()))); // 页眉加时间
 				PrintRequestAttributeSet aset = new HashPrintRequestAttributeSet();
 				aset.add(OrientationRequested.PORTRAIT); // 横排列打印，改为OrientationRequested.LANDSCAPE为竖排列
 				try {
@@ -153,17 +128,7 @@ public class ReportOneSee extends JPanel {
 	}
 
 	void init() {
-		loadTable("SELECT * from bookonesee1");
-		Set<String> type = new HashSet<>();
-		comboBox.addItem("");
-		for (Map<String, Object> info : infoList2) {
-			if (!type.contains(String.valueOf(info.get("图书分类")))) {
-				type.add(String.valueOf(info.get("图书分类")));
-				comboBox.addItem(String.valueOf(info.get("图书分类")));
-			}
-
-		}
-
+		loadTable("SELECT * from design_numprice");
 	}
 
 	void loadTable(String sql) {

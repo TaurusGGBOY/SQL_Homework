@@ -204,6 +204,8 @@ public class MenuManage extends JFrame {
 		ResetPassword resetPassword = new ResetPassword();
 		panel_1.add(resetPassword, "res1");
 
+		ERCode erCode = new ERCode();
+		panel_1.add(erCode, "er1");
 		layout.show(panel_1, "p0");
 		tree.addTreeSelectionListener(new TreeSelectionListener() {
 
@@ -256,11 +258,14 @@ public class MenuManage extends JFrame {
 					case "入库统计表":
 						layout.show(panel_1, "rep2");
 						break;
-					case "库存一览":
-						layout.show(panel_1, "rep3");
-						break;
 					case "密码重置":
 						layout.show(panel_1, "res1");
+						break;
+					case "二维码支付":
+						layout.show(panel_1, "er1");
+						break;
+					case "报表打印":
+						layout.show(panel_1, "rep3");
 						break;
 					default:
 						break;

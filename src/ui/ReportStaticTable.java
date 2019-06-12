@@ -136,7 +136,7 @@ public class ReportStaticTable extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				switch (String.valueOf(comboBox.getSelectedItem())) {
 				case "":
-					loadTable("select * from bookonesee1 bo1,bookstorage1 bs1 where bo1. È∫≈=bs1. È∫≈");
+					loadTable("select * from design_numprice");
 					break;
 
 				default:
